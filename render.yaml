@@ -35,3 +35,11 @@ services:
     dockerContext: ./grafana
     plan: free
     healthCheckPath: /api/health
+
+  - type: static
+    name: marketing-site
+    buildCommand: bash -lc 'echo "window.__GRAFANA_URL__=\"${GRAFANA_URL}\";" > website/env.js'
+    publishPath: ./website
+    envVars:
+      - key: GRAFANA_URL
+        sync: false

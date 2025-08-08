@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AetherCollect — Effortless Observability. Unified.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="./env.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cta = document.getElementById('cta');
+      const grafanaUrl = (window.__GRAFANA_URL__ || '').trim();
+      if (grafanaUrl) {
+        cta.href = grafanaUrl;
+        cta.textContent = 'See Live Demo';
+      } else {
+        cta.href = '#';
+        cta.textContent = 'Set GRAFANA_URL in Render';
+        cta.classList.add('btn-disabled');
+      }
+    });
+  </script>
+</head>
+<body>
+  <header class="nav">
+    <div class="container">
+      <div class="brand">AetherCollect</div>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a id="cta" class="btn">See Live Demo</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Effortless Observability. Unified.</h1>
+        <p>A single, powerful agent for metrics, logs, and traces. Deploy agent-based or agent-less. Send to Prometheus, Kafka, Splunk, or ELK — without the hassle.</p>
+        <div class="actions">
+          <a id="cta" class="btn btn-primary">See Live Demo</a>
+          <a href="#features" class="btn btn-secondary">Learn more</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <div class="container grid">
+        <div class="card">
+          <h3>Unified Agent</h3>
+          <p>Collect metrics, logs, and traces with one lightweight, cross‑platform agent built on OpenTelemetry.</p>
+        </div>
+        <div class="card">
+          <h3>Agent or Agent‑less</h3>
+          <p>Use OTLP push or scrape Prometheus endpoints. Works with apps, exporters, and cloud APIs.</p>
+        </div>
+        <div class="card">
+          <h3>Send Anywhere</h3>
+          <p>Export to Prometheus/Cortex, Kafka, Splunk HEC, or Elasticsearch with simple YAML config.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="how">
+      <div class="container">
+        <h2>How it works</h2>
+        <ol>
+          <li>Deploy the agent (Docker/K8s/binary) or run agent‑less collector.</li>
+          <li>Point your apps or exporters to the agent, or list scrape targets.</li>
+          <li>Query metrics in Grafana. Ship to your existing backends.</li>
+        </ol>
+        <pre class="code">
+# Minimal collector config
+receivers:
+  otlp:
+    protocols:
+      grpc: { endpoint: 0.0.0.0:4317 }
+      http: { endpoint: 0.0.0.0:4318 }
+  prometheus_simple:
+    endpoint: "sample-app:8000"
+    metrics_path: "/metrics"
+processors:
+  batch: {}
+exporters:
+  prometheus:
+    endpoint: "0.0.0.0:${PORT}"
+service:
+  pipelines:
+    metrics:
+      receivers: [otlp, prometheus_simple]
+      processors: [batch]
+      exporters: [prometheus]
+        </pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <span>© AetherCollect</span>
+      <a href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
+    </div>
+  </footer>
+</body>
+</html>
