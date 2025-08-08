@@ -1,0 +1,35 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+  prometheus_simple:
+    collection_interval: 15s
+    endpoint: "sample-app:8000"
+    metrics_path: "/metrics"
+
+processors:
+  batch: {}
+  memory_limiter:
+    limit_mib: 256
+    spike_limit_mib: 64
+    check_interval: 5s
+
+exporters:
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+    namespace: "aether"
+
+extensions:
+  health_check:
+    endpoint: 0.0.0.0:13133
+
+service:
+  extensions: [health_check]
+  pipelines:
+    metrics:
+      receivers: [otlp, prometheus_simple]
+      processors: [memory_limiter, batch]
+      exporters: [prometheus]
