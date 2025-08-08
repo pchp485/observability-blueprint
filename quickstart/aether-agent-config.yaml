@@ -1,0 +1,35 @@
+# Minimal Aether Agent (OTel Collector) config for local usage
+# Replace APP_METRICS_ENDPOINT with your app host:port if scraping via Prometheus
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+  prometheus_simple:
+    collection_interval: 15s
+    endpoint: "APP_METRICS_ENDPOINT"   # e.g., host.docker.internal:8000
+    metrics_path: "/metrics"
+
+processors:
+  memory_limiter:
+    limit_mib: 256
+    spike_limit_mib: 64
+    check_interval: 5s
+  batch:
+    timeout: 1s
+    send_batch_size: 512
+    send_batch_max_size: 1024
+
+exporters:
+  prometheus:
+    endpoint: 0.0.0.0:8889
+    namespace: aether
+
+service:
+  pipelines:
+    metrics:
+      receivers: [otlp, prometheus_simple]
+      processors: [memory_limiter, batch]
+      exporters: [prometheus]
