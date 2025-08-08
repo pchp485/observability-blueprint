@@ -11,16 +11,20 @@
   <script src="./env.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const cta = document.getElementById('cta');
+      const cta1 = document.getElementById('cta');
+      const cta2 = document.getElementById('cta-hero');
       const grafanaUrl = (window.__GRAFANA_URL__ || '').trim();
-      if (grafanaUrl) {
-        cta.href = grafanaUrl;
-        cta.textContent = 'See Live Demo';
-      } else {
-        cta.href = '#';
-        cta.textContent = 'Set GRAFANA_URL in Render';
-        cta.classList.add('btn-disabled');
-      }
+      [cta1, cta2].forEach((el) => {
+        if (!el) return;
+        if (grafanaUrl) {
+          el.href = grafanaUrl;
+          el.textContent = 'See Live Demo';
+        } else {
+          el.href = '#';
+          el.textContent = 'Set GRAFANA_URL in Render';
+          el.classList.add('btn-disabled');
+        }
+      });
     });
   </script>
 </head>
@@ -42,7 +46,7 @@
         <h1>Effortless Observability. Unified.</h1>
         <p>A single, powerful agent for metrics, logs, and traces. Deploy agent-based or agent-less. Send to Prometheus, Kafka, Splunk, or ELK — without the hassle.</p>
         <div class="actions">
-          <a id="cta" class="btn btn-primary">See Live Demo</a>
+          <a id="cta-hero" class="btn btn-primary">See Live Demo</a>
           <a href="#features" class="btn btn-secondary">Learn more</a>
         </div>
       </div>

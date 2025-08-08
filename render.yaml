@@ -38,9 +38,11 @@ services:
 
   - type: web
     name: marketing-site
-    buildCommand: bash -lc 'echo "window.__GRAFANA_URL__=\"${GRAFANA_URL}\";" > website/env.js'
+    runtime: docker
     dockerfilePath: ./website/Dockerfile
-dockerContext: ./website
+    dockerContext: ./website
+    plan: free
+    healthCheckPath: /
     envVars:
       - key: GRAFANA_URL
         sync: false
