@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: sample-app
+    runtime: docker
+    dockerfilePath: ./sample-app/Dockerfile
+    dockerContext: ./sample-app
+    plan: free
+    healthCheckPath: /health
+
+  - type: web
+    name: aether-agent
+    runtime: docker
+    dockerfilePath: ./aether-agent/Dockerfile
+    dockerContext: ./aether-agent
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: OTEL_LOG_LEVEL
+        value: INFO
+      - key: ENVIRONMENT
+        value: production
+
+  - type: web
+    name: prometheus
+    runtime: docker
+    dockerfilePath: ./prometheus/Dockerfile
+    dockerContext: ./prometheus
+    plan: free
+    healthCheckPath: /-/healthy
+
+  - type: web
+    name: grafana
+    runtime: docker
+    dockerfilePath: ./grafana/Dockerfile
+    dockerContext: ./grafana
+    plan: free
+    healthCheckPath: /api/health
