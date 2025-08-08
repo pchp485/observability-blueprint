@@ -54,7 +54,7 @@ async def simulate_load():
 
 @app.get("/api/simulate/error")
 async def simulate_error():
-    if random.random() &lt; 0.4:
+    if random.random() < 0.4:
         raise HTTPException(status_code=500, detail="simulated error")
     return {"ok": True}
 
