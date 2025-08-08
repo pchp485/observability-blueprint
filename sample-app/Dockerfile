@@ -3,7 +3,7 @@ FROM python:3.11-slim
 WORKDIR /app
 
 RUN apt-get update \
-    &amp;&amp; apt-get install -y --no-install-recommends curl \
+    && apt-get install -y --no-install-recommends curl \
     &amp;&amp; rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
