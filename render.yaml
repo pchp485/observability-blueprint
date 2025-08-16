@@ -46,3 +46,11 @@ services:
     envVars:
       - key: GRAFANA_URL
         sync: false
+
+  - type: web
+    name: frontend
+    runtime: docker
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    plan: free
+    healthCheckPath: /
